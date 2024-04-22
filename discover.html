@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="discover.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>MusicMi | Discover</title>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Section -->
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="MusicMi logo">
+            <h1>MusicMi</h1>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="discover.html">Discover</a></li>
+                <li><a href="join.html">Join</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Discover Section -->
+    <section class="discover">
+        <div class="call-to">
+            <h1 class="title">Discover New Music</h1>
+            <div class="icon-section">
+                <div class="icon">
+                    <img src="images/microphone.svg" alt="microphone">
+                    <span>Charts</span>
+                </div>
+                <div class="icon">
+                    <img src="images/albums.svg" alt="albums">
+                    <span>Albums</span>
+                </div>
+                <div class="icon">
+                    <img src="images/more.svg" alt="more">
+                    <span>More</span>
+                </div>
+            </div>
+            <p>By joining, you can benefit from listening to the latest released albums.</p>
+        </div>
+        <div class="search-box">
+            <input type="text" class="input-search" id="searchInput" placeholder="Search for music...">
+            <button class="btn-search" title="Search"><i class="fas fa-search"></i></button>
+        </div>
+        <!-- Song List -->
+        <ul class="song-list">
+            <!-- Song items will be dynamically generated here -->
+        </ul>
+    </section>
+</div>
+
+<!-- Footer Section -->
+<footer class="main-footer">
+    <div class="container">
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Instagram</a></li>
+            </ul>
+        </nav>
+    </div>
+</footer>
+
+<!-- Additional decorative elements -->
+<div class="home-page-circle-1"></div>
+<div class="home-page-circle-2"></div>
+<div class="home-page-circle-3"></div>
+
+<!-- JavaScript -->
+<script>
+    // Audio player setup and functions...
+    var audioPlayers = []; // Массив аудиоплееров
+    var isPlaying = []; // Массив состояний воспроизведения для каждой песни
+    var currentSongIndexes = []; // Массив текущих индексов песен
+
+    // Песни
+    var songs = [
+        { id: 'song0', title: 'Jony - Пустота', file: 'music/Jony - Пустота.mp3' },
+        { id: 'song1', title: 'Lana del rey - Summertime Sadness ', file: 'music/summertime sadness.mp3' },
+        { id: 'song2', title: 'Billie Eilish - Bad Guy', file: 'music/Billie Eilish – bad guy.mp3' },
+        { id: 'song3', title: 'Ed Sheeran - Shape of You', file: 'music/Shape of You - Ed Sheeran.mp3' },
+        { id: 'song4', title: 'Imagine Dragons - Believer', file: 'music/Imagine Dragons - Believer.mp3' },
+        { id: 'song5', title: 'Adele - Love in the dark', file: 'music/Adele.mp3' }
+    ];
+
+    var songList = document.querySelector('.song-list');
+
+    // Создание элементов песен
+    songs.forEach(function(song, index) {
+        var li = document.createElement('li');
+        var songActions = document.createElement('div');
+        var audioControls = document.createElement('div');
+        var audioPlayer = new Audio(); // Создаем новый аудиоплеер для каждой песни
+
+        audioPlayers.push(audioPlayer); // Добавляем аудиоплеер в массив
+        isPlaying.push(false); // Инициализируем состояние воспроизведения
+        currentSongIndexes.push(-1); // Инициализируем текущий индекс песни
+
+        li.innerHTML = '<span class="song-title">' + song.title + '</span>';
+        songActions.innerHTML = '<button class="play-button" onclick="toggleAudio(' + index + ', this)"><i class="fas fa-play"></i></button>' +
+                                '<button class="download-button"><i class="fas fa-download"></i></button>';
+        audioControls.innerHTML = '<button class="skip-back-button" onclick="skipBackward(' + index + ')"><i class="fas fa-backward"></i></button>' +
+                                '<button class="pause-button" onclick="togglePlayPause(' + index + ')"><i class="fas fa-pause"></i></button>' +
+                                '<button class="skip-forward-button" onclick="skipForward(' + index + ')"><i class="fas fa-forward"></i></button>' +
+                                '<button class="stop-button" onclick="stopAudio(' + index + ')"><i class="fas fa-stop"></i></button>' +
+                                '<span class="current-time">0:00</span>' +
+                                '<input type="range" class="progress-bar" value="0" min="0" step="1" onchange="seekAudio(' + index + ', this.value)">' +
+                                '<span class="duration">0:00</span>' +
+                                '<input type="range" class="volume-bar" value="100" min="0" max="100" step="1" onchange="setVolume(' + index + ', this.value)">' +
+                                '<span class="volume-icon"><i class="fas fa-volume-up"></i></span>';
+
+        li.appendChild(songActions);
+        li.appendChild(audioControls);
+        songList.appendChild(li);
+    });
+
+    // Search functionality
+    var searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
+        var searchText = this.value.toLowerCase();
+        var songItems = document.querySelectorAll('.song-list li');
+        songItems.forEach(function(item) {
+            var songTitle = item.querySelector('.song-title').textContent.toLowerCase();
+            if (songTitle.includes(searchText)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // If search text is empty, show all song items
+        if (searchText === '') {
+            songItems.forEach(function(item) {
+                item.style.display = 'block';
+            });
+        }
+    });
+
+    // Функция для переключения воспроизведения аудио
+    function toggleAudio(index, button) {
+        if (currentSongIndexes[index] === index && isPlaying[index]) {
+            pauseAudio(index, button);
+        } else {
+            playAudio(index, button);
+        }
+    }
+
+    // Функция для начала воспроизведения аудио
+    function playAudio(index, button) {
+        audioPlayers[index].src = songs[index].file;
+        audioPlayers[index].play();
+        isPlaying[index] = true;
+        currentSongIndexes[index] = index;
+        button.innerHTML = '<i class="fas fa-pause"></i>';
+        updateProgressBar(index); // Обновление полосы прогресса
+    }
+
+    // Функция для приостановки воспроизведения аудио
+    function pauseAudio(index, button) {
+        audioPlayers[index].pause();
+        isPlaying[index] = false;
+        button.innerHTML = '<i class="fas fa-play"></i>';
+    }
+
+    // Функция для перемотки аудио к указанной позиции
+    function seekAudio(index, value) {
+        audioPlayers[index].currentTime = value;
+        updateProgressBar(index); // Обновление полосы прогресса
+    }
+
+    // Функция для обновления полосы прогресса воспроизведения
+    function updateProgressBar(index) {
+        var progressBar = document.querySelectorAll('.progress-bar')[index];
+        var currentTime = document.querySelectorAll('.current-time')[index];
+        var duration = document.querySelectorAll('.duration')[index];
+        if (audioPlayers[index].duration) {
+            progressBar.value = audioPlayers[index].currentTime;
+            progressBar.max = audioPlayers[index].duration;
+            currentTime.textContent = formatTime(audioPlayers[index].currentTime); // Обновление текущего времени воспроизведения
+            duration.textContent = formatTime(audioPlayers[index].duration); // Обновление продолжительности аудио
+        }
+    }
+
+    // Функция для перемотки вперед на 10 секунд
+    function skipForward(index) {
+        audioPlayers[index].currentTime += 10;
+        updateProgressBar(index); // Обновление полосы прогресса
+    }
+
+    // Функция для перемотки назад на 10 секунд
+    function skipBackward(index) {
+        audioPlayers[index].currentTime -= 10;
+        updateProgressBar(index); // Обновление полосы прогресса
+    }
+
+    // Функция для установки громкости аудио
+    function setVolume(index, value) {
+        audioPlayers[index].volume = value / 100;
+    }
+
+    // Функция для форматирования времени в минуты и секунды
+    function formatTime(time) {
+        var minutes = Math.floor(time / 60);
+        var seconds = Math.floor(time % 60);
+        if (seconds < 10) {
+            seconds = '0' + seconds;
+        }
+        return minutes + ':' + seconds;
+    }
+
+    // Слушатель события ввода для полосы прогресса
+    document.querySelectorAll('.progress-bar').forEach(function(progressBar, index) {
+        progressBar.addEventListener('input', function() {
+            var value = this.value;
+            seekAudio(index, value); // Вызов функции для перемотки аудио к указанной позиции
+        });
+    });
+
+    // Слушатель события ввода для ползунка громкости
+    document.querySelectorAll('.volume-bar').forEach(function(volumeBar, index) {
+        volumeBar.addEventListener('input', function() {
+            var value = this.value;
+            setVolume(index, value); // Вызов функции для установки громкости аудио
+        });
+    });
+
+    // Добавляем слушатель событий для каждого аудиоплеера
+    audioPlayers.forEach(function(player, index) {
+        player.addEventListener('timeupdate', function() {
+            updateProgressBar(index); // Обновляем полосу прогресса
+        });
+    });
+</script>
+</body>
+</html>

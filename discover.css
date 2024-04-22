@@ -1,0 +1,331 @@
+/* Общие стили */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #2F303A;
+    color: #fff;
+    overflow-x: hidden; /* Предотвращает горизонтальную прокрутку */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* Отступы для мобильных устройств */
+}
+
+.flex-height-grow {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Стили для заголовков и текста */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 2.5rem;
+    color: #BC3A80;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Стили для шапки */
+.main-header,
+.main-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background-color: #202027;
+    padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.main-nav {
+    margin-left: auto; /* Перемещаем меню на правый край */
+}
+
+.main-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav li {
+    display: inline;
+    margin-left: 20px; /* Добавляем отступ между ссылками */
+}
+
+.main-nav li:first-child {
+    margin-left: 0; /* Убираем отступ у первой ссылки */
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: #adadad;
+}
+
+/* Секция Discover */
+.discover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 0; /* Отступы сверху и снизу */
+}
+
+.title {
+    margin-bottom: 2rem; /* Отступ снизу */
+    color: #fff; /* Цвет текста */
+}
+
+.icon-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem; /* Отступ между иконками и заголовком */
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1rem; /* Отступ между иконками */
+    padding: 1.5rem; /* Внутренние отступы */
+    width: 120px;
+    height: 120px;
+    background-color: #202027;
+    border-radius: 10px; /* Закругленные углы */
+    transition: background-color 0.3s ease; /* Плавный переход */
+}
+
+.icon:hover {
+    background-color: #BC3A80; /* Цвет при наведении */
+}
+
+.icon img {
+    width: 60px; /* Размер иконки */
+    margin-bottom: 1rem; /* Отступ снизу */
+    transition: transform 0.3s ease; /* Плавный переход */
+}
+
+.icon:hover img {
+    transform: scale(1.1); /* Увеличение размера иконки при наведении */
+}
+
+/* Поисковая строка */
+.search-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem; /* Отступ снизу */
+    position: relative;
+}
+
+.input-search {
+    height: 50px;
+    width: 50px;
+    border-style: none;
+    padding: 10px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    outline: none;
+    border-radius: 25px;
+    background-color: #22a6b3;
+    color: #fff;
+    transition: width 0.5s, transform 0.5s ease; /* Плавный переход */
+    transform: translateX(-50px); /* Смещение за пределы экрана */
+}
+
+.input-search::placeholder {
+    color: rgba(255, 255, 255, .5);
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-weight: 100;
+}
+
+.btn-search {
+    width: 50px;
+    height: 50px;
+    border-style: none;
+    font-size: 20px;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    color: #ffffff;
+    background-color: transparent;
+    transition: transform 0.3s ease; /* Плавный переход */
+}
+
+.btn-search svg {
+    fill: #ffffff;
+}
+
+.search-box:hover .input-search {
+    width: 300px; /* Увеличение ширины */
+    transform: translateX(0); /* Возвращение на место */
+}
+
+.search-box:hover .btn-search {
+    transform: translateX(250px); /* Смещение кнопки вправо */
+}
+
+/* Список песен */
+.song-list {
+    margin-top: 2rem;
+}
+
+.song-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.song-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #2F303A;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease; /* Плавный переход */
+}
+
+.song-list li:hover {
+    transform: translateY(-5px); /* Смещение при наведении */
+}
+
+.song-title {
+    flex: 1;
+    color: #fff;
+}
+
+/* Оформление кнопок */
+.play-button,
+.download-button {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease; /* Плавный переход */
+}
+
+.play-button:hover,
+.download-button:hover {
+    color: #BC3A80; /* Изменение цвета при наведении */
+    transform: scale(1.2); /* Увеличение размера при наведении */
+}
+
+/* Подсказки */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted #fff; /* Пунктирная линия подсказки */
+    cursor: help; /* Изменение курсора */
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Положение подсказки над элементом */
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0; /* Начальная прозрачность */
+    transition: opacity 0.3s; /* Плавный переход для opacity */
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1; /* Показать подсказку */
+}
+
+/* Дополнительные стили для Footer */
+.main-footer {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #202027;
+    color: #fff;
+    font-weight: bold;
+    position: fixed; /* Изменено на fixed */
+    width: 100%;
+    overflow-x: hidden; /* Предотвращает горизонтальную прокрутку */
+    border-top: 2px solid #BC3A80; /* Добавить границу сверху */
+    bottom: 0; /* Прикреплен к нижней части экрана */
+}
+
+.footer-nav {
+    display: flex; /* Отображение элементов в строку */
+}
+
+.footer-nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-nav li {
+    margin-right: 20px;
+}
+
+.footer-nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.2rem; /* Увеличить размер шрифта */
+    transition: color 0.3s; /* Добавить эффект перехода */
+}
+
+.footer-nav a:hover {
+    color: #BC3A80;
+}
+
+.footer-nav img {
+    width: 20px; /* Уменьшить размер изображения */
+    height: auto;
+    margin-right: 10px;
+}
+
